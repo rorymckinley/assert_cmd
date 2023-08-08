@@ -478,6 +478,7 @@ impl Command {
             t.join().unwrap().ok()
         });
         let status = if let Some(timeout) = timeout {
+            println!("DEBUG 13");
             wait_timeout::ChildExt::wait_timeout(&mut child, timeout)
                 .transpose()
                 .unwrap_or_else(|| {
@@ -485,6 +486,7 @@ impl Command {
                     child.wait()
                 })
         } else {
+            println!("DEBUG 14");
             child.wait()
         }?;
 
