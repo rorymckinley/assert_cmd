@@ -458,6 +458,7 @@ impl Command {
                 .take()
                 .map(|mut stdin| std::thread::spawn(move || stdin.write_all(&i)))
         });
+        println!("DEBUG 7");
         fn read<R>(mut input: R) -> std::thread::JoinHandle<io::Result<Vec<u8>>>
         where
             R: Read + Send + 'static,
@@ -470,6 +471,7 @@ impl Command {
         let stdout = child.stdout.take().map(read);
         let stderr = child.stderr.take().map(read);
 
+        println!("DEBUG 8");
         // Finish writing stdin before waiting, because waiting drops stdin.
         stdin.and_then(|t| t.join().unwrap().ok());
         let status = if let Some(timeout) = timeout {
@@ -483,13 +485,16 @@ impl Command {
             child.wait()
         }?;
 
+        println!("DEBUG 9");
         let stdout = stdout
             .and_then(|t| t.join().unwrap().ok())
             .unwrap_or_default();
+        println!("DEBUG 10");
         let stderr = stderr
             .and_then(|t| t.join().unwrap().ok())
             .unwrap_or_default();
 
+        println!("DEBUG 11");
         Ok(process::Output {
             status,
             stdout,
