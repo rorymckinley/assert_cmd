@@ -552,6 +552,7 @@ impl<'c> OutputOkExt for &'c mut Command {
 
 impl<'c> OutputAssertExt for &'c mut Command {
     fn assert(self) -> Assert {
+        println!("DEBUG 1");
         let output = match self.output() {
             Ok(output) => output,
             Err(err) => {
