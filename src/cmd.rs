@@ -473,7 +473,10 @@ impl Command {
 
         println!("DEBUG 8");
         // Finish writing stdin before waiting, because waiting drops stdin.
-        stdin.and_then(|t| t.join().unwrap().ok());
+        stdin.and_then(|t| {
+            println!("DEBUG 12");
+            t.join().unwrap().ok()
+        });
         let status = if let Some(timeout) = timeout {
             wait_timeout::ChildExt::wait_timeout(&mut child, timeout)
                 .transpose()
