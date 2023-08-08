@@ -436,7 +436,9 @@ impl Command {
     /// assert!(output.status.success());
     /// ```
     pub fn output(&mut self) -> io::Result<process::Output> {
+        println!("DEBUG 5");
         let spawn = self.spawn()?;
+        println!("DEBUG 6");
         Self::wait_with_input_output(spawn, self.stdin.as_deref().cloned(), self.timeout)
     }
 
@@ -559,8 +561,11 @@ impl<'c> OutputAssertExt for &'c mut Command {
                 panic!("Failed to spawn {:?}: {}", self, err);
             }
         };
+        println!("DEBUG 2");
         let assert = Assert::new(output).append_context("command", format!("{:?}", self.cmd));
+        println!("DEBUG 3");
         if let Some(stdin) = self.stdin.as_ref() {
+        println!("DEBUG 4");
             assert.append_context("stdin", DebugBuffer::new(stdin.deref().clone()))
         } else {
             assert
